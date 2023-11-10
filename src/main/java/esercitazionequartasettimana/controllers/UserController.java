@@ -59,7 +59,7 @@ public class UserController {
         userService.delete(id);
     }
 
-    @PostMapping("/{id}/upload")
+    @PatchMapping("/{id}/upload")
     public User updateUserPicture(@RequestParam("avatar") MultipartFile body, @PathVariable UUID id) throws IOException {
         return userService.uploadPicture(body, id);
     }

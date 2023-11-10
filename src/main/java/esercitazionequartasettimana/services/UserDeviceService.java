@@ -3,6 +3,7 @@ package esercitazionequartasettimana.services;
 import esercitazionequartasettimana.enteties.Device;
 import esercitazionequartasettimana.enteties.User;
 import esercitazionequartasettimana.enteties.User_Device;
+import esercitazionequartasettimana.exceptions.BadRequestException;
 import esercitazionequartasettimana.exceptions.ItemNotFoundException;
 import esercitazionequartasettimana.payloads.users_devices.User_DeviceDTO;
 import esercitazionequartasettimana.payloads.users_devices.User_DeviceUpdateInfoDTO;
@@ -43,12 +44,17 @@ public class UserDeviceService {
         if (body.withdrawalDate() != null) {
             assign.setWithdrawalDate(body.withdrawalDate());
         }
+        assign.setId(UUID.randomUUID());
         return userDeviceRepository.save(assign);
     }
 
     public User_Device updateWithdrawalDate(UUID id, User_DeviceUpdateInfoDTO body) {
         User_Device found = this.getInfo(id);
-        found.setWithdrawalDate(body.withdrawalDate());
+        if (body.withdrawalDate().isAfter(found.getWithdrawalDate())) {
+            found.setWithdrawalDate(body.withdrawalDate());
+        } else {
+            throw new BadRequestException("The withdrawal date must be later than the assignment date.");
+        }
         return userDeviceRepository.save(found);
     }
 }

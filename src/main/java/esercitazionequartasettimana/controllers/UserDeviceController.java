@@ -14,7 +14,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.UUID;
 
 @RestController
-@RequestMapping("/assign")
+@RequestMapping("/management")
 public class UserDeviceController {
 
     @Autowired
@@ -29,11 +29,11 @@ public class UserDeviceController {
     }
 
     @GetMapping("/{id}")
-    public User_Device getInfo(@RequestParam UUID id) {
+    public User_Device getInfo(@PathVariable UUID id) {
         return userDeviceService.getInfo(id);
     }
 
-    @PutMapping("")
+    @PostMapping("")
     public User_Device assignDeviceToUser(@RequestBody @Validated User_DeviceDTO body, BindingResult validation) {
         if (validation.hasErrors()) {
             throw new BadRequestException(validation.getAllErrors());
@@ -42,8 +42,8 @@ public class UserDeviceController {
         }
     }
 
-    @PostMapping("/{id}")
-    public User_Device updateWithdrawalDate(@RequestBody @Validated User_DeviceUpdateInfoDTO body, @RequestParam UUID id, BindingResult validation) {
+    @PatchMapping("/{id}")
+    public User_Device updateWithdrawalDate(@RequestBody @Validated User_DeviceUpdateInfoDTO body, @PathVariable UUID id, BindingResult validation) {
         if (validation.hasErrors()) {
             throw new BadRequestException(validation.getAllErrors());
         } else {

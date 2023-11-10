@@ -42,7 +42,7 @@ public class DeviceController {
         }
     }
 
-    @PutMapping("/{id}")
+    @PatchMapping("/{id}")
     public Device updateDeviceInfo(@PathVariable UUID id, @RequestBody @Validated DeviceUpdateInfoDTO body, BindingResult validation) {
         if (validation.hasErrors()) {
             throw new BadRequestException(validation.getAllErrors());
