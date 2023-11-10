@@ -1,9 +1,6 @@
 package esercitazionequartasettimana.enteties;
 
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.Id;
-import jakarta.persistence.Table;
+import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -25,4 +22,12 @@ public class User_Device {
     private LocalDate assignmentDate;
     @Column(name = "withdrawal_date")
     private LocalDate withdrawalDate;
+
+    @ManyToOne
+    @JoinColumn(name = "user_id")
+    private User user;
+
+    @ManyToOne
+    @JoinColumn(name = "device_id")
+    private Device device;
 }

@@ -1,17 +1,17 @@
 package esercitazionequartasettimana.enteties;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import esercitazionequartasettimana.enums.DeviceState;
 import esercitazionequartasettimana.enums.DeviceType;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
-import lombok.ToString;
 
+import java.util.List;
 import java.util.UUID;
 
 @Getter
-@ToString
 @NoArgsConstructor
 @AllArgsConstructor
 @Entity
@@ -23,4 +23,17 @@ public class Device {
     private DeviceState state;
     @Enumerated(EnumType.STRING)
     private DeviceType type;
+
+    @OneToMany(mappedBy = "device")
+    @JsonIgnore
+    private List<User_Device> user_devices;
+
+    @Override
+    public String toString() {
+        return "Device{" +
+                "id=" + id +
+                ", state=" + state +
+                ", type=" + type +
+                '}';
+    }
 }
