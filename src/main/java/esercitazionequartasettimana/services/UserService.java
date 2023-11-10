@@ -6,6 +6,7 @@ import esercitazionequartasettimana.enteties.User;
 import esercitazionequartasettimana.exceptions.BadRequestException;
 import esercitazionequartasettimana.exceptions.ItemNotFoundException;
 import esercitazionequartasettimana.payloads.users.UserDTO;
+import esercitazionequartasettimana.payloads.users.UserUpdateInfoDTO;
 import esercitazionequartasettimana.repositories.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -35,7 +36,12 @@ public class UserService {
         userRepository.findByEmail(body.email()).ifPresent(a -> {
             throw new BadRequestException("The email" + a.getEmail() + " is alredy used.");
         });
-        User user = User.builder().name(body.name()).email(body.email()).surname(body.surname()).username(body.username()).build();
+        User user = User.builder().name(body.name()).email(body.email()).surname(body.surname()).build();
+        if (body.username().isEmpty()) {
+            user.setUsername(body.name());
+        } else {
+            user.setUsername(body.username());
+        }
         user.setId(UUID.randomUUID());
         user.setAvatar("https://ui-avatars.com/api/?name=" + body.name() + "+" + body.surname());
 
@@ -46,12 +52,20 @@ public class UserService {
         return userRepository.findById(id).orElseThrow(() -> new ItemNotFoundException(id));
     }
 
-    public User update(UUID id, UserDTO body) {
+    public User update(UUID id, UserUpdateInfoDTO body) {
         User found = this.getById(id);
-        found.setName(body.name());
-        found.setSurname(body.surname());
-        found.setEmail(body.email());
-        found.setUsername(body.username());
+        if (!body.name().isEmpty()) {
+            found.setName(body.name());
+        }
+        if (!body.surname().isEmpty()) {
+            found.setSurname(body.surname());
+        }
+        if (!body.email().isEmpty()) {
+            found.setEmail(body.email());
+        }
+        if (!body.username().isEmpty()) {
+            found.setUsername(body.name());
+        }
         return userRepository.save(found);
     }
 

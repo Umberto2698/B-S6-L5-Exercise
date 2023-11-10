@@ -3,6 +3,7 @@ package esercitazionequartasettimana.controllers;
 import esercitazionequartasettimana.enteties.Device;
 import esercitazionequartasettimana.exceptions.BadRequestException;
 import esercitazionequartasettimana.payloads.devices.DeviceDTO;
+import esercitazionequartasettimana.payloads.devices.DeviceUpdateInfoDTO;
 import esercitazionequartasettimana.services.DeviceService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -42,7 +43,7 @@ public class DeviceController {
     }
 
     @PutMapping("/{id}")
-    public Device updateDeviceInfo(@PathVariable UUID id, @RequestBody DeviceDTO body) {
+    public Device updateDeviceInfo(@PathVariable UUID id, @RequestBody DeviceUpdateInfoDTO body) {
         return deviceService.update(id, body);
     }
 

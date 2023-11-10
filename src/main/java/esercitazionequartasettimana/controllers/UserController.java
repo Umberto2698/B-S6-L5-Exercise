@@ -3,6 +3,7 @@ package esercitazionequartasettimana.controllers;
 import esercitazionequartasettimana.enteties.User;
 import esercitazionequartasettimana.exceptions.BadRequestException;
 import esercitazionequartasettimana.payloads.users.UserDTO;
+import esercitazionequartasettimana.payloads.users.UserUpdateInfoDTO;
 import esercitazionequartasettimana.services.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -44,7 +45,7 @@ public class UserController {
     }
 
     @PutMapping("/{id}")
-    public User updateUserInfo(@PathVariable UUID id, @RequestBody UserDTO body) {
+    public User updateUserInfo(@PathVariable UUID id, @RequestBody UserUpdateInfoDTO body) {
         return userService.update(id, body);
     }
 
