@@ -1,9 +1,11 @@
 package esercitazionequartasettimana.exceptions;
 
+import com.fasterxml.jackson.databind.exc.InvalidFormatException;
 import esercitazionequartasettimana.payloads.errors.ErrorsResponseDTO;
 import esercitazionequartasettimana.payloads.errors.ErrorsResponseWithListDTO;
 import org.springframework.context.support.DefaultMessageSourceResolvable;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.converter.HttpMessageNotReadableException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
@@ -34,6 +36,20 @@ public class ExceptionsHandler {
     @ExceptionHandler(ItemNotAvailableException.class)
     @ResponseStatus(HttpStatus.BAD_REQUEST)
     public ErrorsResponseDTO handleDeviceNotAvailable(ItemNotAvailableException e) {
+        return new ErrorsResponseDTO(e.getMessage(), new Date());
+    }
+
+    @ExceptionHandler(InvalidFormatException.class)
+    @ResponseStatus(HttpStatus.BAD_REQUEST)
+    public ErrorsResponseDTO handle(InvalidFormatException e) {
+        e.printStackTrace();
+        return new ErrorsResponseDTO(e.getMessage(), new Date());
+    }
+
+    @ExceptionHandler(HttpMessageNotReadableException.class)
+    @ResponseStatus(HttpStatus.BAD_REQUEST)
+    public ErrorsResponseDTO handle(HttpMessageNotReadableException e) {
+        e.printStackTrace();
         return new ErrorsResponseDTO(e.getMessage(), new Date());
     }
 
