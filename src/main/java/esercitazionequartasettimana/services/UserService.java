@@ -54,17 +54,11 @@ public class UserService {
 
     public User update(UUID id, UserUpdateInfoDTO body) {
         User found = this.getById(id);
-        if (!body.name().isEmpty()) {
-            found.setName(body.name());
-        }
-        if (!body.surname().isEmpty()) {
-            found.setSurname(body.surname());
-        }
         if (!body.email().isEmpty()) {
             found.setEmail(body.email());
         }
         if (!body.username().isEmpty()) {
-            found.setUsername(body.name());
+            found.setUsername(body.username());
         }
         return userRepository.save(found);
     }

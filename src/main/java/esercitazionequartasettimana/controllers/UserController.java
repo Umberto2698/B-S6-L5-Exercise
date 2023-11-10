@@ -45,8 +45,12 @@ public class UserController {
     }
 
     @PutMapping("/{id}")
-    public User updateUserInfo(@PathVariable UUID id, @RequestBody UserUpdateInfoDTO body) {
-        return userService.update(id, body);
+    public User updateUserInfo(@PathVariable UUID id, @RequestBody @Validated UserUpdateInfoDTO body, BindingResult validation) {
+        if (validation.hasErrors()) {
+            throw new BadRequestException(validation.getAllErrors());
+        } else {
+            return userService.update(id, body);
+        }
     }
 
     @DeleteMapping("/{id}")

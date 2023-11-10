@@ -31,7 +31,7 @@ public class User {
     @Column(name = "creation_date")
     private LocalDateTime cratedAt;
 
-    @OneToMany(mappedBy = "user")
+    @OneToMany(mappedBy = "user", cascade = CascadeType.REMOVE)
     @JsonIgnore
     private List<User_Device> user_devices;
 

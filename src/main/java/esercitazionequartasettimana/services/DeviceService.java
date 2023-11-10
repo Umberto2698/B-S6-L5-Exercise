@@ -25,7 +25,7 @@ public class DeviceService {
     }
 
     public Device save(DeviceDTO body) {
-        Device device = new Device();
+        Device device;
         if (body.state().isEmpty()) {
             device = Device.builder().state("AVAILABLE").type(body.type()).build();
         } else {

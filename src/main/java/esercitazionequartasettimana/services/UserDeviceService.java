@@ -1,0 +1,54 @@
+package esercitazionequartasettimana.services;
+
+import esercitazionequartasettimana.enteties.Device;
+import esercitazionequartasettimana.enteties.User;
+import esercitazionequartasettimana.enteties.User_Device;
+import esercitazionequartasettimana.exceptions.ItemNotFoundException;
+import esercitazionequartasettimana.payloads.users_devices.User_DeviceDTO;
+import esercitazionequartasettimana.payloads.users_devices.User_DeviceUpdateInfoDTO;
+import esercitazionequartasettimana.repositories.UserDeviceRepository;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
+import org.springframework.stereotype.Service;
+
+import java.util.UUID;
+
+@Service
+public class UserDeviceService {
+    @Autowired
+    private UserDeviceRepository userDeviceRepository;
+
+    @Autowired
+    private UserService userService;
+
+    @Autowired
+    private DeviceService deviceService;
+
+    public Page<User_Device> getUser_Device(int page, int size, String orderBy) {
+        Pageable pageable = PageRequest.of(page, size, Sort.by(orderBy));
+        return userDeviceRepository.findAll(pageable);
+    }
+
+    public User_Device getInfo(UUID id) {
+        return userDeviceRepository.findById(id).orElseThrow(() -> new ItemNotFoundException(id));
+    }
+
+    public User_Device assignDeviceToUser(User_DeviceDTO body) {
+        Device device = deviceService.getById(body.deviceId());
+        User user = userService.getById(body.userId());
+        User_Device assign = User_Device.builder().user(user).device(device).assignmentDate(body.assignmentDate()).build();
+        if (body.withdrawalDate() != null) {
+            assign.setWithdrawalDate(body.withdrawalDate());
+        }
+        return userDeviceRepository.save(assign);
+    }
+
+    public User_Device updateWithdrawalDate(UUID id, User_DeviceUpdateInfoDTO body) {
+        User_Device found = this.getInfo(id);
+        found.setWithdrawalDate(body.withdrawalDate());
+        return userDeviceRepository.save(found);
+    }
+}

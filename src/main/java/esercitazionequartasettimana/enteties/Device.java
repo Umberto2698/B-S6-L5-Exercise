@@ -26,7 +26,7 @@ public class Device {
     @Column(name = "creation_date")
     private LocalDateTime cratedAt;
 
-    @OneToMany(mappedBy = "device")
+    @OneToMany(mappedBy = "device", cascade = CascadeType.REMOVE)
     @JsonIgnore
     private List<User_Device> user_devices;
 

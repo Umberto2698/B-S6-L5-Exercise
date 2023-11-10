@@ -43,8 +43,12 @@ public class DeviceController {
     }
 
     @PutMapping("/{id}")
-    public Device updateDeviceInfo(@PathVariable UUID id, @RequestBody DeviceUpdateInfoDTO body) {
-        return deviceService.update(id, body);
+    public Device updateDeviceInfo(@PathVariable UUID id, @RequestBody @Validated DeviceUpdateInfoDTO body, BindingResult validation) {
+        if (validation.hasErrors()) {
+            throw new BadRequestException(validation.getAllErrors());
+        } else {
+            return deviceService.update(id, body);
+        }
     }
 
     @DeleteMapping("/{id}")
@@ -52,4 +56,6 @@ public class DeviceController {
     public void deleteDevice(@PathVariable UUID id) {
         deviceService.delete(id);
     }
+
+
 }
