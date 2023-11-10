@@ -7,10 +7,11 @@ import esercitazionequartasettimana.services.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.core.annotation.Order;
+import org.springframework.stereotype.Component;
 
 import java.util.Locale;
 
-//@Component
+@Component
 @Order(1)
 public class AddUser implements CommandLineRunner {
 

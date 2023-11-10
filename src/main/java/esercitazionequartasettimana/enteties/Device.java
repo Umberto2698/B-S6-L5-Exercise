@@ -21,7 +21,9 @@ import java.util.UUID;
 public class Device {
     @Id
     private UUID id;
+    @Enumerated(EnumType.STRING)
     private DeviceState state;
+    @Enumerated(EnumType.STRING)
     private DeviceType type;
 
     @CreationTimestamp
