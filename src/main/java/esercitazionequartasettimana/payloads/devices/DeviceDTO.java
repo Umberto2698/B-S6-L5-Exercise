@@ -1,9 +1,11 @@
 package esercitazionequartasettimana.payloads.devices;
 
-import jakarta.validation.constraints.NotEmpty;
+import esercitazionequartasettimana.enums.DeviceState;
+import esercitazionequartasettimana.enums.DeviceType;
+import jakarta.validation.constraints.NotNull;
 
 public record DeviceDTO(
-        String state,
-        @NotEmpty(message = "Insert the type of the device.")
-        String type) {
+        DeviceState state,
+        @NotNull(message = "Insert the type of the device.")
+        DeviceType type) {
 }

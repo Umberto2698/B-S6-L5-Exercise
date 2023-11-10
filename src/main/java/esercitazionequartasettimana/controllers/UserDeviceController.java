@@ -33,6 +33,13 @@ public class UserDeviceController {
         return userDeviceService.getInfo(id);
     }
 
+//    @GetMapping("")
+//    public Page<User_Device> getUserHistory(@RequestParam UUID id, @RequestParam(defaultValue = "0") int page,
+//                                            @RequestParam(defaultValue = "10") int size,
+//                                            @RequestParam(defaultValue = "id") String orderBy) {
+//        return userDeviceService.getUserHistory(id, page, size, orderBy);
+//    }
+
     @PostMapping("")
     public User_Device assignDeviceToUser(@RequestBody @Validated User_DeviceDTO body, BindingResult validation) {
         if (validation.hasErrors()) {

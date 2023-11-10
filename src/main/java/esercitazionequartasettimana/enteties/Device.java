@@ -1,6 +1,8 @@
 package esercitazionequartasettimana.enteties;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import esercitazionequartasettimana.enums.DeviceState;
+import esercitazionequartasettimana.enums.DeviceType;
 import jakarta.persistence.*;
 import lombok.*;
 import org.hibernate.annotations.CreationTimestamp;
@@ -19,8 +21,8 @@ import java.util.UUID;
 public class Device {
     @Id
     private UUID id;
-    private String state;
-    private String type;
+    private DeviceState state;
+    private DeviceType type;
 
     @CreationTimestamp
     @Column(name = "creation_date")

@@ -31,6 +31,12 @@ public class ExceptionsHandler {
         }
     }
 
+    @ExceptionHandler(ItemNotAvailableException.class)
+    @ResponseStatus(HttpStatus.BAD_REQUEST)
+    public ErrorsResponseDTO handleDeviceNotAvailable(ItemNotAvailableException e) {
+        return new ErrorsResponseDTO(e.getMessage(), new Date());
+    }
+
     @ExceptionHandler(Exception.class)
     @ResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR)
     public ErrorsResponseDTO handleGeneric(Exception e) {

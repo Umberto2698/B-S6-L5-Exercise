@@ -1,6 +1,7 @@
 package esercitazionequartasettimana.services;
 
 import esercitazionequartasettimana.enteties.Device;
+import esercitazionequartasettimana.enums.DeviceState;
 import esercitazionequartasettimana.exceptions.ItemNotFoundException;
 import esercitazionequartasettimana.payloads.devices.DeviceDTO;
 import esercitazionequartasettimana.payloads.devices.DeviceUpdateInfoDTO;
@@ -26,8 +27,8 @@ public class DeviceService {
 
     public Device save(DeviceDTO body) {
         Device device;
-        if (body.state().isEmpty()) {
-            device = Device.builder().state("AVAILABLE").type(body.type()).build();
+        if (body.state() == null) {
+            device = Device.builder().state(DeviceState.AVAILABLE).type(body.type()).build();
         } else {
             device = Device.builder().state(body.state()).type(body.type()).build();
         }
@@ -41,7 +42,7 @@ public class DeviceService {
 
     public Device update(UUID id, DeviceUpdateInfoDTO body) {
         Device found = this.getById(id);
-        found.setState(body.state());
+        found.setState(DeviceState.valueOf(body.state()));
         return deviceRepository.save(found);
     }
 
