@@ -7,7 +7,9 @@ import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import org.hibernate.annotations.CreationTimestamp;
 
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.UUID;
 
@@ -20,9 +22,13 @@ public class Device {
     @Id
     private UUID id;
     @Enumerated(EnumType.STRING)
-    private DeviceState state;
+    private DeviceState state = DeviceState.AVAILABLE;
     @Enumerated(EnumType.STRING)
     private DeviceType type;
+
+    @CreationTimestamp
+    @Column(name = "creation_date")
+    private LocalDateTime cratedAt;
 
     @OneToMany(mappedBy = "device")
     @JsonIgnore

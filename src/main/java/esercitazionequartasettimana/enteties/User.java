@@ -1,14 +1,13 @@
 package esercitazionequartasettimana.enteties;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import jakarta.persistence.Entity;
-import jakarta.persistence.Id;
-import jakarta.persistence.OneToMany;
-import jakarta.persistence.Table;
+import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import org.hibernate.annotations.CreationTimestamp;
 
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.UUID;
 
@@ -25,6 +24,10 @@ public class User {
     private String username;
     private String email;
 
+    @CreationTimestamp
+    @Column(name = "creation_date")
+    private LocalDateTime cratedAt;
+    
     @OneToMany(mappedBy = "user")
     @JsonIgnore
     private List<User_Device> user_devices;
