@@ -1,16 +1,19 @@
 package esercitazionequartasettimana.controllers;
 
+import esercitazionequartasettimana.enteties.User;
 import esercitazionequartasettimana.enteties.User_Device;
 import esercitazionequartasettimana.exceptions.BadRequestException;
 import esercitazionequartasettimana.payloads.users_devices.User_DeviceDTO;
 import esercitazionequartasettimana.payloads.users_devices.User_DeviceUpdateInfoDTO;
 import esercitazionequartasettimana.services.UserDeviceService;
+import esercitazionequartasettimana.services.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
 import java.util.UUID;
 
 @RestController
@@ -19,6 +22,9 @@ public class UserDeviceController {
 
     @Autowired
     private UserDeviceService userDeviceService;
+
+    @Autowired
+    private UserService userService;
 
 
     @GetMapping("")
@@ -33,12 +39,11 @@ public class UserDeviceController {
         return userDeviceService.getInfo(id);
     }
 
-//    @GetMapping("")
-//    public Page<User_Device> getUserHistory(@RequestParam UUID id, @RequestParam(defaultValue = "0") int page,
-//                                            @RequestParam(defaultValue = "10") int size,
-//                                            @RequestParam(defaultValue = "id") String orderBy) {
-//        return userDeviceService.getUserHistory(id, page, size, orderBy);
-//    }
+    @GetMapping("/history/{id}")
+    public List<User_Device> getUserHistory(@PathVariable UUID id) {
+        User user = userService.getById(id);
+        return userDeviceService.getUserHistory(user);
+    }
 
     @PostMapping("")
     public User_Device assignDeviceToUser(@RequestBody @Validated User_DeviceDTO body, BindingResult validation) {
