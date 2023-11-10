@@ -18,7 +18,6 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
-import java.util.List;
 import java.util.UUID;
 
 @Service
@@ -44,9 +43,9 @@ public class UserDeviceService {
         return userDeviceRepository.findById(id).orElseThrow(() -> new ItemNotFoundException(id));
     }
 
-    public List<User_Device> getUserHistory(User user) {
-//        Pageable pageable = PageRequest.of(page, size, Sort.by(orderBy));
-        return userDeviceRepository.findByUser(user);
+    public Page<User_Device> getUserHistory(User user, int page, int size, String orderBy) {
+        Pageable pageable = PageRequest.of(page, size, Sort.by(orderBy));
+        return userDeviceRepository.findByUser(user, pageable);
     }
 
     public User_Device assignDeviceToUser(User_DeviceDTO body) {

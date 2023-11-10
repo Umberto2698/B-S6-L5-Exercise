@@ -13,7 +13,6 @@ import org.springframework.validation.BindingResult;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.List;
 import java.util.UUID;
 
 @RestController
@@ -40,9 +39,11 @@ public class UserDeviceController {
     }
 
     @GetMapping("/history/{id}")
-    public List<User_Device> getUserHistory(@PathVariable UUID id) {
+    public Page<User_Device> getUserHistory(@PathVariable UUID id, @RequestParam(defaultValue = "0") int page,
+                                            @RequestParam(defaultValue = "10") int size,
+                                            @RequestParam(defaultValue = "id") String orderBy) {
         User user = userService.getById(id);
-        return userDeviceService.getUserHistory(user);
+        return userDeviceService.getUserHistory(user, page, size, orderBy);
     }
 
     @PostMapping("")
