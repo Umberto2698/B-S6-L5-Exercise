@@ -1,19 +1,21 @@
 package esercitazionequartasettimana.enteties;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.github.javafaker.Faker;
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
+import lombok.*;
 import org.hibernate.annotations.CreationTimestamp;
 
 import java.time.LocalDateTime;
 import java.util.List;
+import java.util.Locale;
 import java.util.UUID;
 
 @Getter
+@Setter
 @NoArgsConstructor
 @AllArgsConstructor
+@Builder(builderClassName = "UserBuilder")
 @Entity
 @Table(name = "users")
 public class User {
@@ -23,11 +25,12 @@ public class User {
     private String surname;
     private String username;
     private String email;
+    private String avatar;
 
     @CreationTimestamp
     @Column(name = "creation_date")
     private LocalDateTime cratedAt;
-    
+
     @OneToMany(mappedBy = "user")
     @JsonIgnore
     private List<User_Device> user_devices;
@@ -41,5 +44,13 @@ public class User {
                 ", username='" + username + '\'' +
                 ", email='" + email + '\'' +
                 '}';
+    }
+
+    public static class UserBuilder {
+        Faker faker = new Faker(Locale.ITALY);
+        private String name = faker.name().firstName();
+        private String surname = faker.name().lastName();
+        private String email = name + "." + surname + "@gmail.com";
+        private String username = faker.funnyName().name();
     }
 }
