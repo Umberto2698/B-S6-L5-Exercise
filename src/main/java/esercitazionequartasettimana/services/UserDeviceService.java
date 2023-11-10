@@ -53,15 +53,16 @@ public class UserDeviceService {
         User user = userService.getById(body.userId());
         if (device.getState() != DeviceState.AVAILABLE) {
             throw new ItemNotAvailableException("The Device is not available.");
+        } else {
+            device.setState(DeviceState.ASSIGNED);
+            User_Device assign = User_Device.builder().user(user).device(device).assignmentDate(body.assignmentDate()).build();
+            if (body.withdrawalDate() != null) {
+                assign.setWithdrawalDate(body.withdrawalDate());
+            }
+            assign.setId(UUID.randomUUID());
+            deviceRepository.save(device);
+            return userDeviceRepository.save(assign);
         }
-        device.setState(DeviceState.ASSIGNED);
-        User_Device assign = User_Device.builder().user(user).device(device).assignmentDate(body.assignmentDate()).build();
-        if (body.withdrawalDate() != null) {
-            assign.setWithdrawalDate(body.withdrawalDate());
-        }
-        assign.setId(UUID.randomUUID());
-        deviceRepository.save(device);
-        return userDeviceRepository.save(assign);
     }
 
     public User_Device updateWithdrawalDate(UUID id, User_DeviceUpdateInfoDTO body) {
